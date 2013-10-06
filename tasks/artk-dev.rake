@@ -44,6 +44,28 @@ RSpec::Core::RakeTask.new(:rspec) do |t|
   t.rspec_opts = "--colour -I ../"
 end
 
+desc "Start the test rails app"
+task :start do
+  Bundler.with_clean_env do
+    within_test_app do
+      puts "Starting test app"
+      system "rails server -d"
+    end
+  end
+end
+
+desc "Stop the test rails app"
+task :stop do
+  pid_file = "tmp/pids/server.pid"
+  within_test_app do
+    if File.exists?(pid_file)
+      pid = File.read(pid_file)
+      puts "Stopping pid #{pid}"
+      system "kill -2 #{pid}"
+    end
+  end
+end
+
 def within_test_app
   return unless File.exists?("spec/dummy")
   FileUtils.cd("spec/dummy")
