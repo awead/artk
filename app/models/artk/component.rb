@@ -1,5 +1,5 @@
 module Artk
-class Component < ActiveRecord::Base
+class Component < Artk::Base
 
   belongs_to :resource, :foreign_key => "resourceId"
   has_many :sub_components, :class_name => "Component", :foreign_key => "parentResourceComponentId"

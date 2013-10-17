@@ -38,17 +38,46 @@ And then add the engine to your application
 
     mount Artk::Engine => '/artk'
 
-Configure the gem to connect to your database by adding a `config/initializers/at_connect.rb` file:
+Configure the gem to connect to your Archivists' Toolkit database by editing `config/database.yml` and adding these lines: 
 
-    ActiveRecord::Base.establish_connection(
-      :adapter  => 'mysql2',
-      :encoding => 'utf8',
-      :database => 'at_database_name',
-      :host     => 'host_of_the_at_database',
-      :username => 'username',
-      :password => 'password'
-    )
+    artk_development:
+      adapter: mysql2
+      encoding: utf8
+      reconnect: false
+      database: atk
+      pool: 5
+      username: root
+      password: password 
+      host: localhost
 
+    artk_test:
+      adapter: mysql2
+      encoding: utf8
+      reconnect: false
+      database: bl_test
+      pool: 5
+      username: root
+      password: password
+      host: localhost
+
+    artk_production:
+      adapter: mysql2
+      encoding: utf8
+      reconnect: false
+      database: bl_prod
+      pool: 5
+      username: root
+      password: password
+      host: localhost
+
+The above configuration is for Mysql, so your adapater may vary, and you'll need to change these username,
+password, and host values to match your environment.  Using this configuration allows you to keep your databases
+separate.  For example, the Rails database for your application would be defined by the `developement` yaml
+value, while the Archivists' Toolkit database by the `artk_development` yaml value, and so forth with the other
+environments.
+
+To be safe, you might want to use a username for the Toolkit connection that has only SELECT rights,
+and avoid any possibility of the Rails application trying to make changes to the wrong database.
 
 ## Contributing
 

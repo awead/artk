@@ -1,4 +1,5 @@
-class Artk::Accession < ActiveRecord::Base
+module Artk
+class Accession < Artk::Base
   
   def self.table_name
     "Accessions"
@@ -8,4 +9,5 @@ class Artk::Accession < ActiveRecord::Base
     "accessionId"
   end
 
+end
 end
