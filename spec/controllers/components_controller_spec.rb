@@ -13,4 +13,12 @@ describe Artk::ComponentsController do
     end
   end
 
+  describe "#show" do
+    it "should return the record for a componets in a collection" do
+      get :show, :resource_id => "ARC-0001", :id => "ref1"
+      response.should be_success
+    end
+
+  end
+
 end

@@ -17,7 +17,7 @@ class Component < Artk::Base
   end 
 
   def pid_and_title
-    { self.persistentId => self.title }
+    { :pid => self.persistentId, :title => self.title }
   end 
 
 end

@@ -2,7 +2,7 @@ module Artk
 class ResourcesController < Artk::ApplicationController
 
   def index
-    @results = Resource.finding_aids.collect { |fa| fa.pid_and_title }
+    @results = return_resource_results.collect { |fa| fa.pid_and_title }
     respond_to do |format|
       format.html { render :layout => false, :text => @results.to_json }
       format.json { render :layout => false, :text => @results.to_json }
@@ -22,6 +22,16 @@ class ResourcesController < Artk::ApplicationController
       end
     end
 
+  end
+
+  private
+
+  def return_resource_results
+    if params[:q]
+      Resource.where("title like ?", "%"+params[:q]+"%")
+    else
+      Resource.finding_aids
+    end
   end
 
 end

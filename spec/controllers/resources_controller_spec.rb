@@ -11,6 +11,10 @@ describe Artk::ResourcesController do
       get :index
       response.should be_success
     end
+    it "should search for collection titles" do
+      get :index, {:q => "Terry"}
+      response.should be_success
+    end
   end
 
   describe "#show" do

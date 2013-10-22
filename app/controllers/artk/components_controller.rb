@@ -10,5 +10,14 @@ class ComponentsController < Artk::ApplicationController
     end
   end
 
+  def show
+    @results = Resource.find_by_ead_id(params[:resource_id]).component(params[:id])
+    respond_to do |format|
+      format.html { render :layout => false, :text => @results.to_json }
+      format.json { render :layout => false, :text => @results.to_json }
+      format.js   { render :layout => false, :text => @results.to_json }
+    end
+  end
+  
 end
 end

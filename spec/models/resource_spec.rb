@@ -25,7 +25,7 @@ describe Artk::Resource do
     end
 
     it "returns a hash of the unique identifier and the unformatted title" do
-       Artk::Resource.find_by_ead_id("ARC-0001").pid_and_title.should == {"ARC-0001" => "Art Collins Papers"}
+       Artk::Resource.find_by_ead_id("ARC-0001").pid_and_title.should == {:pid => "ARC-0001", :title => "Art Collins Papers"}
     end
   end
 
@@ -59,6 +59,16 @@ describe Artk::Resource do
 
     it "returns empty if the collection is only items" do
       titles = Artk::Resource.find_by_ead_id("ARC-0060").all_series.should be_empty
+    end
+
+  end
+
+  describe "#component" do
+    it "should return a single component" do
+      Artk::Resource.find_by_ead_id("ARC-0001").component("ref1").title.should == "Series I: Iggy Pop [RESTRICTED]"
+    end
+    it "should return nil" do
+      Artk::Resource.find_by_ead_id("ARC-0001").component("blerg").should be_nil
     end
 
   end

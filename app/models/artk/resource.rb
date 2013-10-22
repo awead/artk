@@ -20,7 +20,7 @@ class Resource < Artk::Base
     self.where("eadFaUniqueIdentifier = '#{id}'").first
   end
 
-  # Returns all Artk::Components that have children components attached to them
+  # Returns all Artk::Component objects that have children components attached to them
   # and are not just the first level of <c> nodes in the finding aid
   def all_series
     first   = retrieve_initial_series
@@ -40,8 +40,13 @@ class Resource < Artk::Base
     return first + second + third + fourth + fifth + sixth
   end
 
+  # Returns a single Artk::Component for a given ref id
+  def component ref
+    self.all_series.collect { |c| c if c.persistentId == ref }.first
+  end
+
   def pid_and_title
-    {self.eadFaUniqueIdentifier => self.findingAidTitle}
+    { :pid => self.eadFaUniqueIdentifier, :title => self.findingAidTitle }
   end
 
   private

@@ -38,7 +38,7 @@ describe Artk::Component do
 
   describe "#pid_and_title" do
     it "returns a hash of the unique id and unformatted title" do
-      Artk::Component.find("18935").pid_and_title.should == { "ref1884" => "Series VII: Audiovisual Materials [RESTRICTED]" }
+      Artk::Component.find("18935").pid_and_title.should == { :pid => "ref1884", :title => "Series VII: Audiovisual Materials [RESTRICTED]" }
     end
   end
 
