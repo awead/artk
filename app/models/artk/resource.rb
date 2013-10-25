@@ -42,7 +42,7 @@ class Resource < Artk::Base
 
   # Returns a single Artk::Component for a given ref id
   def component ref
-    self.all_series.collect { |c| c if c.persistentId == ref }.first
+    self.all_series.collect { |c| c if c.persistentId == ref }.compact.first
   end
 
   def pid_and_title
