@@ -12,7 +12,7 @@ class Resource < Artk::Base
   end
 
   def self.finding_aids
-    self.where('eadFaUniqueIdentifier != "" and findingAidTitle !=""')
+    self.where('eadFaUniqueIdentifier != "" and findingAidTitle !=""').order("findingAidTitle")
   end
 
   # TODO: sanitize params?
@@ -37,7 +37,7 @@ class Resource < Artk::Base
     fifth   = fourth.collect { |r| retrieve_additional_series(r) }.flatten unless fourth.empty?
     sixth   = fifth.collect { |r| retrieve_additional_series(r) }.flatten unless fifth.empty?
 
-    return first + second + third + fourth + fifth + sixth
+    return (first + second + third + fourth + fifth + sixth).sort
   end
 
   # Returns a single Artk::Component for a given ref id
