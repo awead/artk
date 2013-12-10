@@ -48,17 +48,14 @@ describe Artk::Resource do
 
   describe "#all_series" do
 
-    it "returns all components that are not files or items" do
+    it "returns all components in the collection" do
       titles = Artk::Resource.find("45").all_series.collect { |c| c.title }
       titles.should include "Series VI: 16 Magazine Files"
       titles.should include "Subseries 2: Video [RESTRICTED]"
       titles.should include "Beatles"
       titles.should include "General"
       titles.should include "Subseries 2: Pop, Iggy"
-    end
-
-    it "returns empty if the collection is only items" do
-      titles = Artk::Resource.find_by_ead_id("ARC-0060").all_series.should be_empty
+      titles.should include "Brochure for Jimi Hendrix Experience"
     end
 
   end

@@ -20,10 +20,10 @@ class Resource < Artk::Base
     self.where("eadFaUniqueIdentifier = '#{id}'").first
   end
 
-  # Returns all Artk::Component objects that have children components attached to them
-  # and are not just the first level of <c> nodes in the finding aid
+  # Returns all Artk::Component objects or <c> nodes that are in the collection.
+  # We have to build the component levels one by one, limited to 6 levels.
   def all_series
-    first   = retrieve_initial_series
+    first   = self.components
     second  = []
     third   = []
     fourth  = []
@@ -31,11 +31,11 @@ class Resource < Artk::Base
     sixth   = []
     
     # Get additional series, second through sixth
-    second  = first.collect { |r| retrieve_additional_series(r) }.flatten unless first.empty?
-    third   = second.collect { |r| retrieve_additional_series(r) }.flatten unless second.empty?
-    fourth  = third.collect { |r| retrieve_additional_series(r) }.flatten unless third.empty?
-    fifth   = fourth.collect { |r| retrieve_additional_series(r) }.flatten unless fourth.empty?
-    sixth   = fifth.collect { |r| retrieve_additional_series(r) }.flatten unless fifth.empty?
+    second  = first.collect { |r| r.sub_components }.flatten unless first.empty?
+    third   = second.collect { |r| r.sub_components }.flatten unless second.empty?
+    fourth  = third.collect { |r| r.sub_components }.flatten unless third.empty?
+    fifth   = fourth.collect { |r| r.sub_components }.flatten unless fourth.empty?
+    sixth   = fifth.collect { |r| r.sub_components }.flatten unless fifth.empty?
 
     return (first + second + third + fourth + fifth + sixth).sort
   end
@@ -51,10 +51,12 @@ class Resource < Artk::Base
 
   private
 
+  # not used because we're returning all components and not just those that have sub-components
   def retrieve_initial_series
     self.components.keep_if{ |c| c.has_child? }
   end
 
+  # not used because we're returning all components and not just those that have sub-components
   def retrieve_additional_series component
     component.sub_components.keep_if{ |c| c.has_child? }
   end
