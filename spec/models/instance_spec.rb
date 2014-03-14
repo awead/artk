@@ -14,4 +14,8 @@ describe Artk::Instance do
     Artk::Instance.all.first.component.should be_kind_of Artk::Component
   end
 
+  it "belongs to an Artk::Location" do
+    Artk::Instance.all.first.location.should be_kind_of Artk::Location
+  end
+
 end
