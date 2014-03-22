@@ -3,6 +3,7 @@ class Component < Artk::Base
 
   belongs_to :resource, :foreign_key => "resourceId"
   has_many :sub_components, :class_name => "Component", :foreign_key => "parentResourceComponentId"
+  has_many :instances, :class_name => "Instance", :foreign_key => "resourceComponentId"
 
   def self.table_name
     "ResourcesComponents"
